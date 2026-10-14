@@ -27,7 +27,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Required on the public endpoints: sent as X-Keenable-Title.
-    | Values longer than 256 characters are truncated by the API.
+    | Must not exceed 256 characters.
     |
     */
     'app_title' => env('KEENABLE_APP_TITLE', env('APP_NAME', 'Laravel')),
@@ -46,30 +46,8 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Defaults for search
+    | Default search mode
     |--------------------------------------------------------------------------
     */
     'default_mode' => env('KEENABLE_SEARCH_MODE', 'pro'),
-    'default_max_results' => env('KEENABLE_MAX_RESULTS', 10),
-
-    /*
-    |--------------------------------------------------------------------------
-    | HTTP client
-    |--------------------------------------------------------------------------
-    */
-    'timeout' => env('KEENABLE_TIMEOUT', 30),
-    'connect_timeout' => env('KEENABLE_CONNECT_TIMEOUT', 10),
-    'retry_times' => env('KEENABLE_RETRY_TIMES', 0),
-    'retry_sleep_ms' => env('KEENABLE_RETRY_SLEEP_MS', 200),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Auth header
-    |--------------------------------------------------------------------------
-    |
-    | "x-api-key" sends X-API-Key, "bearer" sends Authorization: Bearer.
-    | When both headers are present the API prefers X-API-Key.
-    |
-    */
-    'auth_header' => env('KEENABLE_AUTH_HEADER', 'x-api-key'),
 ];

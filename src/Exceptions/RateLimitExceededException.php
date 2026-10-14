@@ -10,7 +10,7 @@ class RateLimitExceededException extends KeenableException
             ?? $this->responseHeaders['retry-after'][0]
             ?? null;
 
-        return $value !== null ? (int) $value : null;
+        return $value;
     }
 
     public function rateLimit(): ?int
@@ -32,9 +32,7 @@ class RateLimitExceededException extends KeenableException
     {
         foreach ($this->responseHeaders as $key => $values) {
             if (strcasecmp($key, $name) === 0) {
-                $value = is_array($values) ? ($values[0] ?? null) : $values;
-
-                return $value !== null ? (int) $value : null;
+                return is_array($values) ? ($values[0] ?? null) : $values;
             }
         }
 
