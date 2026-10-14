@@ -1,0 +1,48 @@
+{
+    "name": "subscope-ai/laravel-keenable",
+    "description": "Laravel client for the Keenable web search and page fetch API.",
+    "keywords": ["laravel", "keenable", "search", "fetch", "web-search"],
+    "license": "MIT",
+    "type": "library",
+    "require": {
+        "php": "^8.2",
+        "illuminate/contracts": "^10.0|^11.0|^12.0",
+        "illuminate/http": "^10.0|^11.0|^12.0",
+        "illuminate/support": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "pestphp/pest": "^2.0|^3.0",
+        "pestphp/pest-plugin-laravel": "^2.0|^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SubscopeAi\\Keenable\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SubscopeAi\\Keenable\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SubscopeAi\\Keenable\\KeenableServiceProvider"
+            ],
+            "aliases": {
+                "Keenable": "SubscopeAi\\Keenable\\Facades\\Keenable"
+            }
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest"
+    },
+    "minimum-stability": "stable"
+}
