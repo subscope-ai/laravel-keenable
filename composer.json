@@ -1,6 +1,6 @@
 {
     "name": "subscope-ai/laravel-keenable",
-    "description": "Laravel client for the Keenable search and fetch API.",
+    "description": "Laravel client for the Keenable search & fetch API, with tools for Laravel AI agents.",
     "keywords": ["laravel", "keenable", "search", "fetch"],
     "license": "MIT",
     "type": "library",
