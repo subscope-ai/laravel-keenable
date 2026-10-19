@@ -50,4 +50,15 @@ return [
     |--------------------------------------------------------------------------
     */
     'default_mode' => env('KEENABLE_SEARCH_MODE', 'pro'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Wrap tool exceptions
+    |--------------------------------------------------------------------------
+    |
+    | When enabled, the AI tools report client exceptions and return an empty
+    | result instead of throwing. Disable to let exceptions propagate.
+    |
+    */
+    'wrap_tool_exceptions' => env('KEENABLE_WRAP_TOOL_EXCEPTIONS', true),
 ];

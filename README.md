@@ -1,6 +1,6 @@
 # Laravel Keenable
 
-Laravel client for the [Keenable](https://docs.keenable.ai) web search and page fetch API (`POST /v1/search`, `GET /v1/fetch`).
+Laravel client for the [Keenable](https://docs.keenable.ai) search and fetch API (`POST /v1/search`, `GET /v1/fetch`).
 
 ## Installation
 
@@ -25,6 +25,7 @@ php artisan vendor:publish --tag=keenable-config
 | `app_title` | `KEENABLE_APP_TITLE` | `APP_NAME` |
 | `billing` | `KEENABLE_BILLING` | `auto` (`key` when a key is set, `public` otherwise; `x402` for pay-per-request paths) |
 | `default_mode` | `KEENABLE_SEARCH_MODE` | `pro` |
+| `wrap_tool_exceptions` | `KEENABLE_WRAP_TOOL_EXCEPTIONS` | `true` |
 
 ```env
 KEENABLE_API_KEY=keen_...
@@ -43,7 +44,6 @@ use SubscopeAi\Keenable\Facades\Keenable;
 $results = Keenable::search('laravel best practices', [
     'mode' => 'pro',          // pro|realtime
     'max_results' => 10,      // 1-50, omit for server default
-    'site' => 'example.com',
     // acquired_after, acquired_before, published_after,
     // published_before, query_time, snippet_max_length (180-10000)
 ]);
@@ -52,10 +52,10 @@ foreach ($results->results as $hit) {
     echo $hit->title.' '.$hit->url;
 }
 
-$page = Keenable::fetch('https://example.com/article', [
+$page = Keenable::fetch('https://example.test/resource', [
     'live' => true,           // fetch live, incl. non-indexed URLs
     'max_chars' => 50000,
-    'prompt' => 'List pricing tiers', // max 2000 chars, LLM-extracted content
+    'prompt' => 'Extract key points', // max 2000 chars, LLM-extracted content
 ]);
 
 echo $page->content;
@@ -69,7 +69,24 @@ use SubscopeAi\Keenable\KeenableClient;
 public function __construct(protected KeenableClient $keenable) {}
 ```
 
-To use the pay-per-request paths (`/v1/x402/*`), set `KEENABLE_BILLING=x402` — payment handling stays on the caller.
+To use the `x402` paths (`/v1/x402/*`), set `KEENABLE_BILLING=x402` — payment handling stays on the caller.
+
+## AI tools
+
+The package ships two [Laravel AI](https://github.com/laravel/ai) tools: `KeenableSearchTool` and `KeenableFetchTool`. They implement `Laravel\Ai\Contracts\Tool`; the service provider binds them with `KeenableClient` and the package config. By default provider errors are reported and the tool returns an empty result (`[]` for search, `''` for fetch); set `keenable.wrap_tool_exceptions` to `false`, or pass `wrapExceptions: false` to the constructor, to let typed exceptions bubble up.
+
+```php
+use SubscopeAi\Keenable\Tools\KeenableFetchTool;
+use SubscopeAi\Keenable\Tools\KeenableSearchTool;
+
+$agent->tools([
+    app(KeenableSearchTool::class),
+    app(KeenableFetchTool::class),
+]);
+
+// Propagate provider exceptions instead of returning an empty result.
+new KeenableSearchTool($client, wrapExceptions: false);
+```
 
 Enums and DTOs:
 
@@ -79,7 +96,7 @@ use SubscopeAi\Keenable\Enums\SearchMode;
 Keenable::search('...', ['mode' => SearchMode::Realtime]);
 ```
 
-`search()` returns `SearchResponse` (`query`, `mode`, `SearchResult[]`), `fetch()` returns `FetchResponse` (`url`, `title`, `description`, `author`, `content`, `publishedAt`). `SearchResponse::$mode` is `?string`: it echoes the mode that served the request (`pro`/`realtime`), or `null` when the API did not report one — a missing mode is never guessed, since it determines the billed SKU.
+`search()` returns `SearchResponse` (`query`, `mode`, `SearchResult[]`), `fetch()` returns `FetchResponse` (`url`, `title`, `description`, `author`, `content`, `publishedAt`). `SearchResponse::$mode` is `?string`: it echoes the mode that served the request (`pro`/`realtime`), or `null` when the API did not report one — a missing mode is never guessed.
 
 ## Exceptions
 

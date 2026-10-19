@@ -1,14 +1,16 @@
 {
     "name": "subscope-ai/laravel-keenable",
-    "description": "Laravel client for the Keenable web search and page fetch API.",
-    "keywords": ["laravel", "keenable", "search", "fetch", "web-search"],
+    "description": "Laravel client for the Keenable search and fetch API.",
+    "keywords": ["laravel", "keenable", "search", "fetch"],
     "license": "MIT",
     "type": "library",
     "require": {
-        "php": "^8.2",
-        "illuminate/contracts": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/http": "^10.0|^11.0|^12.0|^13.0",
-        "illuminate/support": "^10.0|^11.0|^12.0|^13.0"
+        "php": "^8.3",
+        "illuminate/contracts": "^12.0|^13.0",
+        "illuminate/http": "^12.0|^13.0",
+        "illuminate/json-schema": "^12.62|^13.15",
+        "illuminate/support": "^12.0|^13.0",
+        "laravel/ai": "^0.8"
     },
     "require-dev": {
         "orchestra/testbench": "^8.0|^9.0|^10.0",
