@@ -1,6 +1,23 @@
 # Laravel Keenable
 
-Laravel client for the [Keenable](https://docs.keenable.ai) search and fetch API (`POST /v1/search`, `GET /v1/fetch`).
+[![Packagist Version](https://img.shields.io/packagist/v/subscope-ai/laravel-keenable.svg)](https://packagist.org/packages/subscope-ai/laravel-keenable)
+[![Packagist PHP Version](https://img.shields.io/packagist/php-v/subscope-ai/laravel-keenable.svg)](https://packagist.org/packages/subscope-ai/laravel-keenable)
+[![License](https://img.shields.io/packagist/l/subscope-ai/laravel-keenable.svg)](LICENSE)
+[![Tests](https://github.com/subscope-ai/laravel-keenable/actions/workflows/tests.yml/badge.svg)](https://github.com/subscope-ai/laravel-keenable/actions/workflows/tests.yml)
+
+Laravel client for the [Keenable](https://keenable.ai) search and fetch API (`POST /v1/search`, `GET /v1/fetch`), with tools for [Laravel AI](https://github.com/laravel/ai) agents.
+
+## Why Keenable
+
+Web search and page fetching are the two capabilities almost every AI agent needs, but wiring them up usually means hand-rolling request signing, response mapping, and a tool wrapper on top. This package does that once:
+
+- `Keenable::search()` — ranked web results in `pro` (quality) or `realtime` (freshness) mode, with date, time, and snippet filters.
+- `Keenable::fetch()` — clean page content for any URL, including pages that are not indexed yet, optionally extracted by an LLM with your own prompt.
+- `KeenableSearchTool` and `KeenableFetchTool` — ready-made `Laravel\Ai\Contracts\Tool` implementations, so an agent can search and read the web with two lines of configuration.
+- Typed exceptions with status codes, response bodies, and rate-limit metadata instead of raw HTTP errors.
+- Built on Laravel's HTTP client, so `Http::fake()` and the rest of the testing toolkit work as usual.
+
+Billing works with an API key, the public endpoints (no key needed), or pay-per-request `x402` paths. See the [API documentation](https://docs.keenable.ai) for endpoints, limits, and pricing.
 
 ## Installation
 
